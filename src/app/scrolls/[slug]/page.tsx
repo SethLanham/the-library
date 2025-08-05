@@ -19,12 +19,12 @@ const scrolls: { [key: string]: Scroll } = {
   },
 };
 
-// Generate static paths for dynamic routes
+// ✅ generate static paths
 export async function generateStaticParams() {
   return Object.keys(scrolls).map((slug) => ({ slug }));
 }
 
-// Generate metadata for each scroll
+// ✅ dynamic metadata
 export async function generateMetadata({
   params,
 }: {
@@ -45,12 +45,12 @@ export async function generateMetadata({
   };
 }
 
-// Main page component
-type PageProps = {
+// ❌ DO NOT make this async
+export default function ScrollPage({
+  params,
+}: {
   params: { slug: string };
-};
-
-export default async function ScrollPage({ params }: PageProps) {
+}) {
   const scroll = scrolls[params.slug];
 
   if (!scroll) return notFound();
@@ -62,3 +62,4 @@ export default async function ScrollPage({ params }: PageProps) {
     </div>
   );
 }
+
