@@ -4,9 +4,8 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Home | The Library",
-  description: "A digital sanctuary for imagination,innovation, and ideas that shape tomorrow.",
+  description: "A digital sanctuary for imagination, innovation, and ideas that shape tomorrow.",
 };
-import Image from "next/image";
 
 export default function Home() {
   return (
