@@ -1,9 +1,4 @@
 import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "About | The Library",
-  description: "Learn about the vision behind The Library and our mission to inspire the future.",
-};
 import { notFound } from "next/navigation";
 
 type Scroll = {
@@ -24,7 +19,38 @@ const scrolls: { [key: string]: Scroll } = {
   },
 };
 
-export default function ScrollPage({ params }: { params: { slug: string } }) {
+// 👇 Needed by Next.js to statically generate pages
+export async function generateStaticParams() {
+  return Object.keys(scrolls).map((slug) => ({ slug }));
+}
+
+// 👇 Optional, but sets dynamic metadata for each scroll
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const scroll = scrolls[params.slug];
+
+  if (!scroll) {
+    return {
+      title: "Not Found | The Library",
+      description: "The scroll you're looking for could not be found.",
+    };
+  }
+
+  return {
+    title: `${scroll.title} | The Library`,
+    description: scroll.content,
+  };
+}
+
+// 👇 This is what renders the actual page content — MUST be included
+export default function ScrollPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const scroll = scrolls[params.slug];
 
   if (!scroll) return notFound();
