@@ -19,12 +19,12 @@ const scrolls: { [key: string]: Scroll } = {
   },
 };
 
-// 👇 Needed by Next.js to statically generate pages
+// Generate static paths for dynamic routes
 export async function generateStaticParams() {
   return Object.keys(scrolls).map((slug) => ({ slug }));
 }
 
-// 👇 Optional, but sets dynamic metadata for each scroll
+// Generate metadata for each scroll
 export async function generateMetadata({
   params,
 }: {
@@ -45,12 +45,12 @@ export async function generateMetadata({
   };
 }
 
-// 👇 This is what renders the actual page content — MUST be included
-export default function ScrollPage({
-  params,
-}: {
+// Main page component
+type PageProps = {
   params: { slug: string };
-}) {
+};
+
+export default async function ScrollPage({ params }: PageProps) {
   const scroll = scrolls[params.slug];
 
   if (!scroll) return notFound();
